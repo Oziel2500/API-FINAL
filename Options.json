@@ -6,7 +6,7 @@
     },
     "servers": [
         {
-            "url": "https//api-final-production-2a41.up.railway.app/"
+            "url": "https://api-final-production-2a41.up.railway.app/"
         }
     ]
 }
