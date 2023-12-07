@@ -6,7 +6,7 @@
     },
     "servers": [
         {
-            "url": "https://localhost:8084/"
+            "url": "http://localhost:8084/"
         }
     ]
 }

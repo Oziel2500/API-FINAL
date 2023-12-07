@@ -39,7 +39,30 @@ const swaggerOptions = {
     definition: obj,
     apis: [`${path.join(__dirname, "./index.js")}`],
 }
-
+// Definir la ruta GET "/autos" y su lógica
+/**
+ * @swagger
+ * /autos:
+ *   get:
+ *     summary: Obtiene información de todos los modelos de autos.
+ *     description: Endpoint para obtener una lista de todos los modelos de autos.
+ *     responses:
+ *       200:
+ *         description: Datos de los modelos de autos obtenidos exitosamente.
+ *         content:
+ *           application/json:
+ *             example:
+ *               - id: 1
+ *                 nombre: 'Modelo 1'
+ *               - id: 2
+ *                 nombre: 'Modelo 2'
+ *       500:
+ *         description: Error interno del servidor.
+ *         content:
+ *           application/json:
+ *             example:
+ *               mensaje: 'Mensaje de error SQL'
+ */
 app.get("/autos", async (req, res) => {
     try {
         const token = req.token;
@@ -52,7 +75,35 @@ app.get("/autos", async (req, res) => {
         res.status(500).json({ mensaje: err.sqlMessage });
     }
 });
-
+// Definir la ruta GET "/autos/:ID" y su lógica
+/**
+ * @swagger
+ * /autos/{ID}:
+ *   get:
+ *     summary: Obtiene información de un modelo de auto por su ID.
+ *     description: Endpoint para obtener información de un modelo de auto por su ID.
+ *     parameters:
+ *       - in: path
+ *         name: ID
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID del modelo de auto.
+ *     responses:
+ *       200:
+ *         description: Datos del modelo de auto obtenidos exitosamente.
+ *         content:
+ *           application/json:
+ *             example:
+ *               - id: 1
+ *                 nombre: 'Modelo 1'
+ *       404:
+ *         description: No se encontró el modelo de auto en la base de datos.
+ *         content:
+ *           application/json:
+ *             example:
+ *               mensaje: 'No encontramos el auto en la base de datos'
+ */
 app.get("/autos/:ID", async (req, res) => {
    
 
@@ -66,7 +117,43 @@ app.get("/autos/:ID", async (req, res) => {
         res.json(rows);
     }
 });
-
+// Definir la ruta POST "/insertar" y su lógica
+/**
+ * @swagger
+ * /insertar:
+ *   post:
+ *     summary: Inserta un nuevo modelo de auto en la base de datos.
+ *     description: Endpoint para insertar un nuevo modelo de auto en la base de datos.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               Nombre:
+ *                 type: string
+ *                 description: Nombre del modelo de auto.
+ *               Categoria:
+ *                 type: string
+ *                 description: Categoría del modelo de auto.
+ *               Lanzamiento:
+ *                 type: integer
+ *                 description: Año de lanzamiento del modelo de auto.
+ *     responses:
+ *       200:
+ *         description: Datos del modelo de auto insertados correctamente.
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: 'Datos insertados del modelo de auto correctamente de NombreModelo'
+ *       500:
+ *         description: Error interno del servidor al insertar datos.
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: 'Error al insertar datos'
+ */
 app.post('/insertar', async (req, res) => {
     try {
         const conn = await mysql.createConnection(MySqlConnection);
@@ -81,7 +168,50 @@ app.post('/insertar', async (req, res) => {
         res.status(500).json({ message: 'Error al insertar datos' });
     }
 });
-
+// Definir la ruta PUT "/autos/:ID" y su lógica
+/**
+ * @swagger
+ * /autos/{ID}:
+ *   put:
+ *     summary: Actualiza un modelo de auto existente por su ID.
+ *     description: Endpoint para actualizar la información de un modelo de auto por su ID.
+ *     parameters:
+ *       - in: path
+ *         name: ID
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID del modelo de auto a actualizar.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               Nombre:
+ *                 type: string
+ *                 description: Nuevo nombre del modelo de auto.
+ *               Categoria:
+ *                 type: string
+ *                 description: Nueva categoría del modelo de auto.
+ *               Lanzamiento:
+ *                 type: integer
+ *                 description: Nuevo año de lanzamiento del modelo de auto.
+ *     responses:
+ *       200:
+ *         description: Datos del modelo de auto actualizados correctamente.
+ *         content:
+ *           application/json:
+ *             example:
+ *               mensaje: 'ACTUALIZADO NombreModelo'
+ *       500:
+ *         description: Error interno del servidor al actualizar datos.
+ *         content:
+ *           application/json:
+ *             example:
+ *               mensaje: 'Mensaje de error SQL'
+ */
 app.put("/autos/:ID", async (req, res) => {
     try {
         const conn = await mysql.createConnection(MySqlConnection);
@@ -94,7 +224,34 @@ app.put("/autos/:ID", async (req, res) => {
     }
 });
 
-
+// Definir la ruta DELETE "/autos/:ID" y su lógica
+/**
+ * @swagger
+ * /autos/{ID}:
+ *   delete:
+ *     summary: Elimina un modelo de auto por su ID.
+ *     description: Endpoint para eliminar un modelo de auto por su ID.
+ *     parameters:
+ *       - in: path
+ *         name: ID
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID del modelo de auto a eliminar.
+ *     responses:
+ *       200:
+ *         description: El modelo de auto fue eliminado correctamente.
+ *         content:
+ *           application/json:
+ *             example:
+ *               mensaje: 'Registro Eliminado'
+ *       500:
+ *         description: Error interno del servidor al eliminar datos.
+ *         content:
+ *           application/json:
+ *             example:
+ *               mensaje: 'Mensaje de error SQL'
+ */
 app.delete("/autos/:ID", async (req, res) => {
     try {
         const conn = await mysql.createConnection(MySqlConnection);
